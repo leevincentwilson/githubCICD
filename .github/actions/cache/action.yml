@@ -16,5 +16,6 @@ runs:
           **/node_modules
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
     - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      shell: bash
       name: "===== Install ====="
       run: npm ci

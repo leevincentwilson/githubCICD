@@ -31,6 +31,7 @@ jobs:
     if: ${{ always() && needs.GetArtifacts.result == 'failure' }}
     needs: GetArtifacts
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/cache
       - uses: ./.github/actions/buildAndUpload
   Deploy:

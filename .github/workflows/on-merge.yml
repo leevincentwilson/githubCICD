@@ -27,7 +27,9 @@ jobs:
           commit: ${{github.event.pull_request.head.sha}}
           repo: ${{ github.repository }}
           name: build
+          path: build
       - name: Check file existence
+        id: check_files
         uses: andstor/file-existence-action@v2
         with:
           files: "build/index.html"

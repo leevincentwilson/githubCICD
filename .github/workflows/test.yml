@@ -45,7 +45,7 @@ jobs:
           echo "$NEEDS"
   test2:
     runs-on: ubuntu-latest
-    if: ${{contains(join(needs.*.result, ','), 'failure') }}
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     needs: [ dep1 ]
     steps:
       - name: Hello World

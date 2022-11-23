@@ -50,4 +50,4 @@ jobs:
           app-name: 'lvw'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_1234 }}
-          package: ./build
+          package: .

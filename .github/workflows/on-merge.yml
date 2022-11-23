@@ -36,9 +36,10 @@ jobs:
           files: "build/index.html"
       - if: steps.check_files.outputs.files_exists == 'false'
         name: Failed to download artifact
-        run: |
-          echo "Build folder missing"
-          exit 1
+          uses: actions/checkout@v3
+          uses: actions/setup-node@v3
+          uses: ./.github/actions/cache
+          run: npm run build
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:

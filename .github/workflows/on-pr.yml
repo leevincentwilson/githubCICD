@@ -11,19 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: |
-            ~/.npm
-            **/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: "===== Install ====="
-        run: npm ci
+      - uses: ./.github/actions/cache
   Build:
     runs-on: ubuntu-latest
     needs: Install-And-Cache

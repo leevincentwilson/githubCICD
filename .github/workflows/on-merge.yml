@@ -11,33 +11,11 @@ concurrency:
   group: on-merge-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 jobs:
-  GetArtifacts:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download artifact
-        id: download-artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: on-pr.yml
-          workflow_conclusion: success
-          commit: ${{github.event.pull_request.head.sha}}
-          repo: ${{ github.repository }}
-          name: build
-          path: build
-          if_no_artifact_found: fail
-  BuildArtifacts:
-    runs-on: ubuntu-latest
-    if: ${{ always() && needs.GetArtifacts.result == 'failure' }}
-    needs: GetArtifacts
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/cache
-      - uses: ./.github/actions/buildAndUpload
   Deploy:
     runs-on: ubuntu-latest
-    needs: [GetArtifacts,BuildArtifacts]
     steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/build
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:

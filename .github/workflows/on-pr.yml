@@ -16,8 +16,7 @@ jobs:
     needs: Install-And-Cache
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/cache
-      - uses: ./.github/actions/buildAndUpload
+      - uses: ./.github/actions/build
   Lint:
     runs-on: ubuntu-latest
     needs: Install-And-Cache

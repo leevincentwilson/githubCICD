@@ -1,0 +1,28 @@
+name: 'Get Cache'
+description: 'Gets node modules cache'
+runs:
+  using: "composite"
+  steps:
+    - name: Download artifact
+      id: download-artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: on-pr.yml
+        workflow_conclusion: success
+        commit: ${{github.event.pull_request.head.sha}}
+        repo: ${{ github.repository }}
+        name: build
+        path: build
+        if_no_artifact_found: warn
+    - name: Create Artifact
+      if: steps.download-artifact.outputs.found_artifact == "false"
+      uses: ./.github/actions/cache
+      run: npm run build
+    - name: Upload artifact for deployment job
+      if: steps.download-artifact.outputs.found_artifact == "false"
+      uses: actions/upload-artifact@v3
+      with:
+        name: build
+        path: ./build
+
+

@@ -22,7 +22,7 @@ runs:
       run: npm run build
       shell: bash
     - name: Upload artifact for deployment job
-      if: steps.download-artifact.outputs.found_artifact == 'false'
+      if: ${{ steps.download-artifact.outputs.found_artifact  == 'false' }}
       uses: actions/upload-artifact@v3
       with:
         name: build

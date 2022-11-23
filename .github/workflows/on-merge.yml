@@ -17,6 +17,14 @@ jobs:
       name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     steps:
+      - name: Download artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: on-pr.yml
+          workflow_conclusion: success
+          commit: ${{github.event.pull_request.head.sha}}
+          repo: ${{ github.repository }}
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:

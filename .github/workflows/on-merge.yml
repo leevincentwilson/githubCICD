@@ -11,11 +11,8 @@ concurrency:
   group: on-merge-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 jobs:
-  Deploy:
+  GetArtifacts:
     runs-on: ubuntu-latest
-    environment:
-      name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     steps:
       - uses: actions/checkout@v3
       - name: Download artifact
@@ -28,18 +25,17 @@ jobs:
           repo: ${{ github.repository }}
           name: build
           path: build
-          if_no_artifact_found: warn
-      - name: Check file existence
-        id: check_files
-        uses: andstor/file-existence-action@v2
-        with:
-          files: "build/index.html"
-      - if: steps.check_files.outputs.files_exists == 'false'
-        name: Failed to download artifact
-        uses: actions/checkout@v3
-        uses: actions/setup-node@v3
-        uses: ./.github/actions/cache
-        run: npm run build
+          if_no_artifact_found: fail
+  BuildArtifacts:
+    runs-on: ubuntu-latest
+    if: ${{ always() && needs.GetArtifacts.result == 'failure' }}
+    deps: GetArtifacts
+    steps:
+      - uses: ./.github/actions/cache
+      - uses: ./.github/actions/buildAndUpload
+  Deploy:
+    runs-on: ubuntu-latest
+    deps: [GetArtifacts,BuildArtifacts]
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:

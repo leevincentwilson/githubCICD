@@ -17,13 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/cache
-      - name: "===== Build ====="
-        run: npm run build
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: ./build
+      - uses: ./.github/actions/buildAndUpload
   Lint:
     runs-on: ubuntu-latest
     needs: Install-And-Cache

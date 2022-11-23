@@ -15,11 +15,11 @@ runs:
         path: build
         if_no_artifact_found: warn
     - name: Create Artifact
-      if: steps.download-artifact.outputs.found_artifact == "false"
+      if: steps.download-artifact.outputs.found_artifact == 'false'
       uses: ./.github/actions/cache
       run: npm run build
     - name: Upload artifact for deployment job
-      if: steps.download-artifact.outputs.found_artifact == "false"
+      if: steps.download-artifact.outputs.found_artifact == 'false'
       uses: actions/upload-artifact@v3
       with:
         name: build

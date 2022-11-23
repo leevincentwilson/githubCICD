@@ -24,14 +24,18 @@ jobs:
         with:
           workflow: on-pr.yml
           workflow_conclusion: success
-          commit: ${{github.event.pull_request.head.sha}}
+          commit: ${{github.event.pull_request.head}}
           repo: ${{ github.repository }}
           name: build
       - name: Check file existence
         uses: andstor/file-existence-action@v2
         with:
-          files: "build"
-
+          files: "build/index.html"
+      - if: steps.check_files.outputs.files_exists == 'false'
+        name: Failed to download artifact
+        run: |
+          echo "Build folder missing"
+          exit 1
       - if: steps.check_files.outputs.files_exists == 'true'
         name: 'Deploy to Azure Web App'
         id: deploy-to-webapp

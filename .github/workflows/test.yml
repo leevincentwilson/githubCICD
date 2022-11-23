@@ -33,3 +33,23 @@ jobs:
           NEEDS: ${{ toJSON(needs) }}
         run: |
           echo "$NEEDS"
+  test:
+    runs-on: ubuntu-latest
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    needs: [ dep1 ]
+    steps:
+      - name: Hello World
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          echo "$NEEDS"
+  test2:
+    runs-on: ubuntu-latest
+    if: ${{contains(join(needs.*.result, ','), 'failure') }}
+    needs: [ dep1 ]
+    steps:
+      - name: Hello World
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          echo "$NEEDS"

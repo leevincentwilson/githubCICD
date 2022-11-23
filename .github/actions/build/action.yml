@@ -14,9 +14,13 @@ runs:
         name: build
         path: build
         if_no_artifact_found: warn
-    - name: Create Artifact
+    - name: Get Cache
       if: ${{ steps.download-artifact.outputs.found_artifact  == 'false' }}
       uses: ./.github/actions/cache
+    - name: Build Artifact
+      if: ${{ steps.download-artifact.outputs.found_artifact  == 'false' }}
+      run: npm run build
+      shell: bash
     - name: Upload artifact for deployment job
       if: steps.download-artifact.outputs.found_artifact == 'false'
       uses: actions/upload-artifact@v3

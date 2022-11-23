@@ -3,10 +3,13 @@
 
 name: Build and deploy Node.js app to Azure Web App - lvw
 on:
-  push:
+  pull_request:
     branches:
       - main
   workflow_dispatch:
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 jobs:
   deploy:
     runs-on: ubuntu-latest

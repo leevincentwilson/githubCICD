@@ -28,6 +28,7 @@ jobs:
           repo: ${{ github.repository }}
           name: build
           path: build
+          if_no_artifact_found: warn
       - name: Check file existence
         id: check_files
         uses: andstor/file-existence-action@v2

@@ -10,14 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
       - uses: ./.github/actions/cache
   Build:
     runs-on: ubuntu-latest
     needs: Install-And-Cache
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
       - uses: ./.github/actions/cache
       - name: "===== Build ====="
         run: npm run build

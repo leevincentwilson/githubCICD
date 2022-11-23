@@ -36,7 +36,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: node-app-${{ github.head_ref || github.run_id  }}
+          name: build
           path: ./build
   Lint:
     runs-on: ubuntu-latest

@@ -26,7 +26,14 @@ jobs:
           workflow_conclusion: success
           commit: ${{github.event.pull_request.head.sha}}
           repo: ${{ github.repository }}
-      - name: 'Deploy to Azure Web App'
+          name: build
+      - name: Check file existence
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "build"
+
+      - if: steps.check_files.outputs.files_exists == 'true'
+        name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:

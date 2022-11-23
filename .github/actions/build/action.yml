@@ -7,6 +7,8 @@ runs:
       id: download-artifact
       uses: dawidd6/action-download-artifact@v2
       with:
+        workflow: on-pr.yml
+        workflow_conclusion: success
         commit: ${{github.event.pull_request.head.sha}}
         repo: ${{ github.repository }}
         name: build

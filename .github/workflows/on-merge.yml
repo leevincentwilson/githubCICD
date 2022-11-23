@@ -35,7 +35,7 @@ jobs:
       - uses: ./.github/actions/buildAndUpload
   Deploy:
     runs-on: ubuntu-latest
-    deps: [GetArtifacts,BuildArtifacts]
+    needs: [GetArtifacts,BuildArtifacts]
     steps:
       - name: 'Login via Azure CLI'
         uses: azure/login@v1

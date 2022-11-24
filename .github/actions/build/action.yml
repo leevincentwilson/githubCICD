@@ -7,7 +7,7 @@ runs:
     - uses: actions/setup-node@v3
     - name: Get Cache
       uses: ./.github/actions/cache
-    - name: Build Artifact
+    - name: Build App
       run: npm run build
       shell: bash
 

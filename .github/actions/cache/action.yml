@@ -5,6 +5,8 @@ runs:
   steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
+      with:
+        cache: 'npm'
     - name: Cache node modules
       id: cache-npm
       uses: actions/cache@v3

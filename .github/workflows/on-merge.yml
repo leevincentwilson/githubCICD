@@ -1,0 +1,44 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Deploy Node.js app to Azure Web App - lvw
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+concurrency:
+  group: on-merge-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/build
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+      - name: test
+        run: |
+          if [ -d "./src" ]; then
+            echo "src exists."
+          else
+            echo "Error:src does not exists."
+          fi
+      - name: test2
+        run: |
+          if [ -d "./build" ]; then
+            echo "build exists."
+          else
+            echo "Error:build does not exists."
+          fi
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'lvw'
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_1234 }}
+          package: ./build

@@ -22,12 +22,18 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
       - name: test
         run: |
-          FILE=/build/index.html
-          if test -f "$FILE"; then
-              echo "$FILE exists."
+          if [ -d "./src" ] then
+            echo "src exists."
           else
-            exit 1
+            echo "Error:src does not exists."
           fi
+      - name: test
+          run: |
+            if [ -d "./build" ] then
+              echo "build exists."
+            else
+              echo "Error:build does not exists."
+            fi
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2

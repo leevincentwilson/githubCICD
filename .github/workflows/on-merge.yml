@@ -27,7 +27,7 @@ jobs:
           else
             echo "Error:src does not exists."
           fi
-      - name: test
+      - name: test2
           run: |
             if [ -d "./build" ]; then
               echo "build exists."

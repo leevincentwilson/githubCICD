@@ -22,14 +22,14 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
       - name: test
         run: |
-          if [ -d "./src" ] then
+          if [ -d "./src" ]; then
             echo "src exists."
           else
             echo "Error:src does not exists."
           fi
       - name: test
           run: |
-            if [ -d "./build" ] then
+            if [ -d "./build" ]; then
               echo "build exists."
             else
               echo "Error:build does not exists."
